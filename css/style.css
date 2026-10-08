@@ -1,26 +1,46 @@
+/* ========================================
+   RESET
+======================================== */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
 body {
     min-height: 100vh;
     background: #f1f3f4;
+    color: #202124;
     font-family: Arial, Helvetica, sans-serif;
-
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    color: #202124;
+    transition: background 0.3s ease, color 0.3s ease;
 }
+
+
+/* ========================================
+   GAME CONTAINER
+======================================== */
 
 .game-container {
     width: 900px;
     max-width: 95%;
 }
+
+
+/* ========================================
+   TOP BAR
+======================================== */
 
 .top-bar {
     display: flex;
@@ -52,9 +72,13 @@ body {
 
 .score-container strong {
     min-width: 55px;
+    text-align: right;
 }
 
-/* Game */
+
+/* ========================================
+   GAME AREA
+======================================== */
 
 #game {
     position: relative;
@@ -64,13 +88,17 @@ body {
 
     overflow: hidden;
 
-    background: #fff;
-
+    background: #ffffff;
     border: 2px solid #222;
     border-radius: 8px;
+
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
-/* start screen */
+
+/* ========================================
+   START / GAME OVER SCREEN
+======================================== */
 
 #start-screen,
 #game-over-screen {
@@ -79,16 +107,15 @@ body {
 
     z-index: 20;
 
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.94);
 
     display: flex;
     flex-direction: column;
-
     justify-content: center;
+    align-items: center;
 
     gap: 15px;
 }
-
 
 .hidden {
     display: none !important;
@@ -99,31 +126,12 @@ body {
     font-size: 38px;
     font-weight: bold;
     letter-spacing: 5px;
+    text-align: center;
 }
 
 .start-subtitle {
     color: #666;
-}
-
-button {
-    border: none;
-
-    background: #222;
-    color: white;
-
-    padding: 12px 25px;
-    border-radius: 5px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-button:hover {
-    background: #444;
-    transform: translateY(-2px);
+    text-align: center;
 }
 
 .final-score {
@@ -131,16 +139,467 @@ button:hover {
     font-size: 18px;
 }
 
-/* dino */
+
+/* ========================================
+   BUTTON
+======================================== */
+
+button {
+    border: none;
+    outline: none;
+
+    background: #222;
+    color: #fff;
+
+    padding: 12px 25px;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+button:hover {
+    background: #444;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* ========================================
+   DINO / PLAYER
+======================================== */
 
 #dino {
     position: absolute;
 
     left: 80px;
-    bottom: 42px;
+    bottom: 43px;
 
-    width: 45px;
-    height: 55px;
+    width: 55px;
+    height: auto;
 
     z-index: 5;
+
+    display: block;
+
+    object-fit: contain;
+
+    user-select: none;
+    pointer-events: none;
+
+    -webkit-user-drag: none;
+
+    image-rendering: auto;
+}
+
+
+/* ========================================
+   DINO ANIMATION
+   Untuk gambar dino biasa
+======================================== */
+
+#dino.running {
+    animation: dinoRun 0.18s infinite alternate;
+}
+
+@keyframes dinoRun {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
+}
+
+
+/* ========================================
+   CACTUS
+======================================== */
+
+#cactus {
+    position: absolute;
+
+    left: 900px;
+    bottom: 43px;
+
+    width: 45px;
+    height: 65px;
+
+    z-index: 4;
+}
+
+
+/* Batang cactus */
+
+.cactus-main {
+    position: absolute;
+
+    left: 16px;
+    bottom: 0;
+
+    width: 14px;
+    height: 65px;
+
+    background: #222;
+
+    border-radius: 3px;
+}
+
+
+/* Tangan kiri */
+
+.cactus-left {
+    position: absolute;
+
+    left: 3px;
+    bottom: 25px;
+
+    width: 15px;
+    height: 8px;
+
+    background: #222;
+}
+
+.cactus-left::after {
+    content: "";
+
+    position: absolute;
+
+    left: 3px;
+    bottom: 0;
+
+    width: 8px;
+    height: 25px;
+
+    background: #222;
+}
+
+
+/* Tangan kanan */
+
+.cactus-right {
+    position: absolute;
+
+    right: 0;
+    bottom: 37px;
+
+    width: 15px;
+    height: 8px;
+
+    background: #222;
+}
+
+.cactus-right::after {
+    content: "";
+
+    position: absolute;
+
+    right: 3px;
+    bottom: 0;
+
+    width: 8px;
+    height: 22px;
+
+    background: #222;
+}
+
+
+/* ========================================
+   CLOUD
+======================================== */
+
+.cloud {
+    position: absolute;
+
+    width: 60px;
+    height: 12px;
+
+    background: #e5e5e5;
+
+    border-radius: 20px;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+.cloud::before {
+    content: "";
+
+    position: absolute;
+
+    width: 25px;
+    height: 25px;
+
+    left: 10px;
+    bottom: 0;
+
+    background: #e5e5e5;
+
+    border-radius: 50%;
+}
+
+.cloud::after {
+    content: "";
+
+    position: absolute;
+
+    width: 30px;
+    height: 30px;
+
+    right: 8px;
+    bottom: 0;
+
+    background: #e5e5e5;
+
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    top: 55px;
+    left: 30%;
+}
+
+.cloud-2 {
+    top: 100px;
+    left: 70%;
+
+    transform: scale(0.7);
+}
+
+
+/* ========================================
+   GROUND
+======================================== */
+
+#ground {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 43px;
+
+    z-index: 3;
+
+    pointer-events: none;
+}
+
+.ground-line {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background: #222;
+}
+
+
+/* ========================================
+   CONTROLS
+======================================== */
+
+.controls {
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+.controls span {
+    display: inline-block;
+
+    margin-left: 20px;
+    margin-right: 5px;
+
+    padding: 3px 7px;
+
+    border: 1px solid #aaa;
+    border-radius: 4px;
+
+    font-family: monospace;
+}
+
+
+/* ========================================
+   DARK MODE
+======================================== */
+
+body.dark {
+    background: #202124;
+    color: #eee;
+}
+
+
+/* Game */
+
+body.dark #game {
+    background: #181818;
+    border-color: #eee;
+}
+
+
+/* Start screen */
+
+body.dark #start-screen,
+body.dark #game-over-screen {
+    background: rgba(24, 24, 24, 0.95);
+}
+
+
+/* Text */
+
+body.dark .start-subtitle,
+body.dark .controls,
+body.dark .score-container span {
+    color: #aaa;
+}
+
+
+/* Cactus + ground */
+
+body.dark .cactus-main,
+body.dark .cactus-left,
+body.dark .cactus-left::after,
+body.dark .cactus-right,
+body.dark .cactus-right::after,
+body.dark .ground-line {
+    background: #eee;
+}
+
+
+/* Clouds */
+
+body.dark .cloud,
+body.dark .cloud::before,
+body.dark .cloud::after {
+    background: #333;
+}
+
+
+/* Button */
+
+body.dark button {
+    background: #eee;
+    color: #222;
+}
+
+body.dark button:hover {
+    background: #ddd;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .game-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .top-bar {
+        margin-bottom: 10px;
+    }
+
+    #game {
+        height: 250px;
+    }
+
+    .title {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .score-container {
+        font-size: 11px;
+        gap: 3px;
+    }
+
+    .score-container span {
+        margin-left: 5px;
+    }
+
+    .score-container strong {
+        min-width: 40px;
+    }
+
+    .start-title,
+    .game-over-title {
+        font-size: 28px;
+        letter-spacing: 3px;
+    }
+
+    .start-subtitle {
+        font-size: 13px;
+    }
+
+    #dino {
+        left: 50px;
+        width: 50px;
+        bottom: 43px;
+    }
+
+    #cactus {
+        bottom: 43px;
+    }
+
+    .controls {
+        font-size: 10px;
+    }
+
+    .controls span {
+        margin-left: 5px;
+        margin-right: 3px;
+    }
+}
+
+
+/* ========================================
+   VERY SMALL SCREEN
+======================================== */
+
+@media (max-width: 380px) {
+
+    #game {
+        height: 220px;
+    }
+
+    #dino {
+        left: 35px;
+        width: 45px;
+    }
+
+    .start-title,
+    .game-over-title {
+        font-size: 24px;
+    }
+
+    button {
+        padding: 10px 20px;
+    }
 }

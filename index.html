@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dino Runner</title>
+
+    <title>DINO Runner</title>
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -12,22 +14,36 @@
 
     <div class="game-container">
 
+        <!-- TOP BAR -->
         <div class="top-bar">
-            <div class="title">DINO RUNNER</div>
+
+            <div class="title">
+                DINO RUNNER
+            </div>
 
             <div class="score-container">
+
                 <span>SCORE</span>
                 <strong id="score">00000</strong>
 
                 <span>BEST</span>
                 <strong id="best-score">00000</strong>
+
             </div>
+
         </div>
 
+
+        <!-- GAME -->
         <div id="game">
 
+            <!-- START SCREEN -->
             <div id="start-screen">
-                <div class="start-title">DINO RUNNER</div>
+
+                <div class="start-title">
+                    DINO RUNNER
+                </div>
+
                 <div class="start-subtitle">
                     Tekan <b>SPACE</b> untuk mulai
                 </div>
@@ -35,9 +51,13 @@
                 <button id="start-button">
                     MULAI GAME
                 </button>
+
             </div>
 
+
+            <!-- GAME OVER -->
             <div id="game-over-screen" class="hidden">
+
                 <div class="game-over-title">
                     GAME OVER
                 </div>
@@ -50,38 +70,58 @@
                 <button id="restart-button">
                     MAIN LAGI
                 </button>
+
             </div>
 
-            <div id="dino">
-                <div class="dino-head"></div>
-                <div class="dino-body"></div>
-                <div class="dino-leg leg-left"></div>
-                <div class="dino-leg leg-right"></div>
-            </div>
 
+            <!-- BURUNG -->
+            <img id="dino" src="img/dino.png" alt="Burung">
+
+
+            <!-- CACTUS -->
             <div id="cactus">
+
                 <div class="cactus-main"></div>
+
                 <div class="cactus-left"></div>
+
                 <div class="cactus-right"></div>
+
             </div>
 
+
+            <!-- CLOUD -->
             <div class="cloud cloud-1"></div>
+
             <div class="cloud cloud-2"></div>
 
+
+            <!-- GROUND -->
             <div id="ground">
+
                 <div class="ground-line"></div>
+
             </div>
 
         </div>
 
+
+        <!-- CONTROLS -->
         <div class="controls">
-            <span>SPACE / ↑</span> LOMPAT
-            <span>D</span> DARK MODE
+
+            <span>SPACE / ↑</span>
+            LOMPAT
+
+            <span>D</span>
+            DARK MODE
+
         </div>
 
     </div>
 
-    <script src="script.js"></script>
+
+    <script src="js/script.js"></script>
+
 </body>
 
 </html>
