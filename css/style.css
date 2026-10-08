@@ -130,3 +130,17 @@ button:hover {
     font-family: monospace;
     font-size: 18px;
 }
+
+/* dino */
+
+#dino {
+    position: absolute;
+
+    left: 80px;
+    bottom: 42px;
+
+    width: 45px;
+    height: 55px;
+
+    z-index: 5;
+}
