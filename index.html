@@ -5,16 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DINO Runner</title>
+    <title>Dino Runner</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body>
+<body class="day">
 
     <div class="game-container">
 
-        <!-- TOP BAR -->
+        <!-- =========================
+             TOP BAR
+        ========================== -->
+
         <div class="top-bar">
 
             <div class="title">
@@ -26,7 +29,7 @@
                 <span>SCORE</span>
                 <strong id="score">00000</strong>
 
-                <span>BEST</span>
+                <span>HI</span>
                 <strong id="best-score">00000</strong>
 
             </div>
@@ -34,10 +37,14 @@
         </div>
 
 
-        <!-- GAME -->
+        <!-- =========================
+             GAME
+        ========================== -->
+
         <div id="game">
 
             <!-- START SCREEN -->
+
             <div id="start-screen">
 
                 <div class="start-title">
@@ -45,17 +52,18 @@
                 </div>
 
                 <div class="start-subtitle">
-                    Tekan <b>SPACE</b> untuk mulai
+                    Tekan SPACE untuk mulai
                 </div>
 
                 <button id="start-button">
-                    MULAI GAME
+                    MULAI
                 </button>
 
             </div>
 
 
-            <!-- GAME OVER -->
+            <!-- GAME OVER SCREEN -->
+
             <div id="game-over-screen" class="hidden">
 
                 <div class="game-over-title">
@@ -67,6 +75,11 @@
                     <strong id="final-score">0</strong>
                 </div>
 
+                <div class="final-score">
+                    BEST:
+                    <strong id="final-best-score">0</strong>
+                </div>
+
                 <button id="restart-button">
                     MAIN LAGI
                 </button>
@@ -74,11 +87,25 @@
             </div>
 
 
-            <!-- BURUNG -->
-            <img id="dino" src="img/dino.png" alt="Burung">
+            <!-- =========================
+                 CLOUD
+            ========================== -->
+
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
 
 
-            <!-- CACTUS -->
+            <!-- =========================
+                 DINO
+            ========================== -->
+
+            <img id="dino" src="img/dino.png" alt="Dino">
+
+
+            <!-- =========================
+                 CACTUS
+            ========================== -->
+
             <div id="cactus">
 
                 <div class="cactus-main"></div>
@@ -90,13 +117,10 @@
             </div>
 
 
-            <!-- CLOUD -->
-            <div class="cloud cloud-1"></div>
+            <!-- =========================
+                 GROUND
+            ========================== -->
 
-            <div class="cloud cloud-2"></div>
-
-
-            <!-- GROUND -->
             <div id="ground">
 
                 <div class="ground-line"></div>
@@ -106,14 +130,20 @@
         </div>
 
 
-        <!-- CONTROLS -->
+        <!-- =========================
+             CONTROLS
+        ========================== -->
+
         <div class="controls">
 
-            <span>SPACE / ↑</span>
-            LOMPAT
+            <span>SPACE</span>
+            Lompat
 
-            <span>D</span>
-            DARK MODE
+            <span>↑</span>
+            Lompat
+
+            <span>R</span>
+            Restart
 
         </div>
 

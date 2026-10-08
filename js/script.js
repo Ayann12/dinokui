@@ -1,45 +1,33 @@
-// BIRD RUNNER GAME
+/* ========================================
+   ELEMENT
+======================================== */
+
+const game = document.getElementById("game");
+
+const dino = document.getElementById("dino");
+
+const cactus = document.getElementById("cactus");
+
+const scoreDisplay = document.getElementById("score");
+
+const bestScoreDisplay = document.getElementById("best-score");
+
+const startScreen = document.getElementById("start-screen");
+
+const gameOverScreen = document.getElementById("game-over-screen");
+
+const startButton = document.getElementById("start-button");
+
+const restartButton = document.getElementById("restart-button");
+
+const finalScore = document.getElementById("final-score");
+
+const finalBestScore = document.getElementById("final-best-score");
 
 
-// ELEMENT
-const game =
-    document.getElementById("game");
-
-const dino =
-    document.getElementById("dino");
-
-const cactus =
-    document.getElementById("cactus");
-
-const scoreText =
-    document.getElementById("score");
-
-const bestScoreText =
-    document.getElementById("best-score");
-
-const finalScoreText =
-    document.getElementById("final-score");
-
-const startScreen =
-    document.getElementById("start-screen");
-
-const gameOverScreen =
-    document.getElementById(
-        "game-over-screen"
-    );
-
-const startButton =
-    document.getElementById(
-        "start-button"
-    );
-
-const restartButton =
-    document.getElementById(
-        "restart-button"
-    );
-
-
-// GAME VARIABLES
+/* ========================================
+   GAME VARIABLES
+======================================== */
 
 let gameRunning = false;
 
@@ -48,50 +36,104 @@ let gameOver = false;
 let score = 0;
 
 let bestScore =
-    localStorage.getItem(
-        "birdBestScore"
-    ) || 0;
+    Number(localStorage.getItem("dinoBestScore")) || 0;
 
 
-let birdY = 0;
+/* ========================================
+   DINO VARIABLES
+======================================== */
+
+let dinoY = 0;
 
 let velocityY = 0;
 
-
-// gravitasi
 const gravity = 0.7;
 
-
-// kekuatan lompat
 const jumpPower = 13;
 
 
-// posisi cactus
+/* ========================================
+   CACTUS VARIABLES
+======================================== */
+
 let cactusX = 900;
 
-
-// kecepatan game
 let gameSpeed = 6;
 
 
-// timer score
+/* ========================================
+   TIME
+======================================== */
+
+let lastTime = 0;
+
 let scoreTimer = 0;
 
 
-// waktu frame
-let lastTime = 0;
+/* ========================================
+   UPDATE BEST SCORE
+======================================== */
+
+bestScoreDisplay.textContent =
+    String(bestScore).padStart(5, "0");
 
 
-// BEST SCORE
+/* ========================================
+   UPDATE SCORE DISPLAY
+======================================== */
 
-bestScoreText.textContent =
-    String(bestScore).padStart(
-        5,
-        "0"
+function updateScore() {
+
+    scoreDisplay.textContent =
+        String(score).padStart(5, "0");
+
+}
+
+
+/* ========================================
+   GAME THEME
+======================================== */
+
+function updateGameTheme() {
+
+    document.body.classList.remove(
+        "day",
+        "sunset",
+        "night",
+        "midnight"
     );
 
 
-// START GAME
+    if (score < 500) {
+
+        document.body.classList.add("day");
+
+    }
+
+    else if (score < 1000) {
+
+        document.body.classList.add("sunset");
+
+    }
+
+    else if (score < 1500) {
+
+        document.body.classList.add("night");
+
+    }
+
+    else {
+
+        document.body.classList.add("midnight");
+
+    }
+
+}
+
+
+/* ========================================
+   START GAME
+======================================== */
 
 function startGame() {
 
@@ -99,207 +141,167 @@ function startGame() {
 
     gameOver = false;
 
-
     score = 0;
 
-    scoreTimer = 0;
-
-
-    birdY = 0;
+    dinoY = 0;
 
     velocityY = 0;
 
+    cactusX = game.offsetWidth + 100;
 
     gameSpeed = 6;
 
+    scoreTimer = 0;
 
-    cactusX =
-        game.offsetWidth + 100;
-
-
-    scoreText.textContent =
-        "00000";
+    lastTime = performance.now();
 
 
-    dino.style.bottom =
-        "42px";
+    startScreen.classList.add("hidden");
+
+    gameOverScreen.classList.add("hidden");
 
 
-    cactus.style.left =
-        cactusX + "px";
+    dino.classList.add("running");
+
+    dino.classList.remove("jumping");
 
 
-    startScreen.classList.add(
-        "hidden"
-    );
+    updateScore();
+
+    updateGameTheme();
 
 
-    gameOverScreen.classList.add(
-        "hidden"
-    );
-
-
-    lastTime =
-        performance.now();
-
-
-    requestAnimationFrame(
-        gameLoop
-    );
+    requestAnimationFrame(gameLoop);
 
 }
 
 
-// JUMP
+/* ========================================
+   JUMP
+======================================== */
 
 function jump() {
 
     if (!gameRunning) {
-
         return;
-
     }
 
 
-    // hanya bisa lompat
-    // ketika menyentuh tanah
+    if (dinoY === 0) {
 
-    if (birdY <= 0) {
+        velocityY = jumpPower;
 
-        velocityY =
-            jumpPower;
+        dino.classList.remove("running");
+
+        dino.classList.add("jumping");
 
     }
 
 }
 
 
-// GAME LOOP
+/* ========================================
+   GAME LOOP
+======================================== */
 
-function gameLoop(timestamp) {
+function gameLoop(currentTime) {
 
     if (!gameRunning) {
-
         return;
-
     }
 
 
-    // hitung delta time
-
     const deltaTime =
         Math.min(
-            (timestamp - lastTime)
-            / 16.67,
+            (currentTime - lastTime) / 16.67,
             2
         );
 
 
-    lastTime =
-        timestamp;
+    lastTime = currentTime;
 
 
-    // ====================================
-    // BIRD PHYSICS
-    // ====================================
+    /* =========================
+       DINO PHYSICS
+    ========================= */
 
-    velocityY -=
-        gravity *
-        deltaTime;
+    velocityY -= gravity * deltaTime;
 
-
-    birdY +=
-        velocityY *
-        deltaTime;
+    dinoY += velocityY * deltaTime;
 
 
-    // menyentuh tanah
+    if (dinoY <= 0) {
 
-    if (birdY <= 0) {
-
-        birdY = 0;
+        dinoY = 0;
 
         velocityY = 0;
+
+        dino.classList.remove("jumping");
+
+        dino.classList.add("running");
 
     }
 
 
-    // update posisi burung
-
     dino.style.bottom =
-        (42 + birdY) +
-        "px";
+        (43 + dinoY) + "px";
 
 
-    // ====================================
-    // CACTUS MOVEMENT
-    // ====================================
+    /* =========================
+       CACTUS MOVEMENT
+    ========================= */
 
-    cactusX -=
-        gameSpeed *
-        deltaTime;
+    cactusX -= gameSpeed * deltaTime;
 
 
-    cactus.style.left =
-        cactusX + "px";
-
-
-    // ====================================
-    // CACTUS RESET
-    // ====================================
-
-    if (cactusX < -80) {
+    if (cactusX < -60) {
 
         cactusX =
-            game.offsetWidth
-            +
-            Math.random() * 300
-            +
+            game.offsetWidth +
+            Math.random() * 300 +
             100;
 
     }
 
 
-    // ====================================
-    // SCORE
-    // ====================================
-
-    scoreTimer +=
-        deltaTime;
+    cactus.style.left =
+        cactusX + "px";
 
 
-    if (scoreTimer >= 5) {
+    /* =========================
+       SCORE
+    ========================= */
+
+    scoreTimer += deltaTime;
+
+
+    if (scoreTimer >= 8) {
 
         score++;
 
         scoreTimer = 0;
 
+        updateScore();
 
-        scoreText.textContent =
-            String(score).padStart(
-                5,
-                "0"
-            );
+        updateGameTheme();
 
 
-        // tambah kecepatan
-        // setiap 10 score
+        /* =========================
+           INCREASE SPEED
+        ========================= */
 
-        if (
-            score > 0 &&
-            score % 10 === 0
-        ) {
+        if (score % 100 === 0) {
 
-            gameSpeed += 0.5;
+            gameSpeed += 0.4;
 
         }
 
     }
 
 
-    // ====================================
-    // COLLISION
-    // ====================================
+    /* =========================
+       COLLISION
+    ========================= */
 
     if (checkCollision()) {
 
@@ -310,78 +312,59 @@ function gameLoop(timestamp) {
     }
 
 
-    // lanjut game
-
-    requestAnimationFrame(
-        gameLoop
-    );
+    requestAnimationFrame(gameLoop);
 
 }
 
 
-// COLLISION
+/* ========================================
+   COLLISION
+======================================== */
 
 function checkCollision() {
 
-    const birdRect =
+    const dinoRect =
         dino.getBoundingClientRect();
 
     const cactusRect =
         cactus.getBoundingClientRect();
 
 
-    // hitbox dibuat sedikit lebih kecil
-    // supaya tidak terlalu sensitif
+    /* Sedikit perkecil hitbox */
 
-    const padding = 8;
+    const paddingX = 8;
+
+    const paddingY = 5;
 
 
     return (
 
-        birdRect.left
-        +
-        padding
-        <
-        cactusRect.right
-        -
-        padding
+        dinoRect.left + paddingX <
+        cactusRect.right - paddingX
 
         &&
 
-        birdRect.right
-        -
-        padding
-        >
-        cactusRect.left
-        +
-        padding
+        dinoRect.right - paddingX >
+        cactusRect.left + paddingX
 
         &&
 
-        birdRect.top
-        +
-        padding
-        <
+        dinoRect.top + paddingY <
         cactusRect.bottom
-        -
-        padding
 
         &&
 
-        birdRect.bottom
-        -
-        padding
-        >
-        cactusRect.top
-        +
-        padding
+        dinoRect.bottom - paddingY >
+        cactusRect.top + paddingY
 
     );
 
 }
 
 
-// GAME OVER
+/* ========================================
+   GAME OVER
+======================================== */
 
 function endGame() {
 
@@ -390,68 +373,90 @@ function endGame() {
     gameOver = true;
 
 
-    finalScoreText.textContent =
-        score;
+    dino.classList.remove("running");
+
+    dino.classList.remove("jumping");
 
 
-    // cek best score
+    /* =========================
+       BEST SCORE
+    ========================= */
 
-    if (
-        score >
-        Number(bestScore)
-    ) {
+    if (score > bestScore) {
 
-        bestScore =
-            score;
-
+        bestScore = score;
 
         localStorage.setItem(
-            "birdBestScore",
+            "dinoBestScore",
             bestScore
         );
-
-
-        bestScoreText.textContent =
-            String(bestScore)
-                .padStart(
-                    5,
-                    "0"
-                );
 
     }
 
 
-    gameOverScreen.classList.remove(
-        "hidden"
-    );
+    bestScoreDisplay.textContent =
+        String(bestScore).padStart(5, "0");
+
+
+    finalScore.textContent =
+        score;
+
+
+    finalBestScore.textContent =
+        bestScore;
+
+
+    gameOverScreen.classList.remove("hidden");
 
 }
 
 
-// KEYBOARD
+/* ========================================
+   START BUTTON
+======================================== */
+
+startButton.addEventListener(
+    "click",
+    startGame
+);
+
+
+/* ========================================
+   RESTART BUTTON
+======================================== */
+
+restartButton.addEventListener(
+    "click",
+    startGame
+);
+
+
+/* ========================================
+   KEYBOARD
+======================================== */
 
 document.addEventListener(
     "keydown",
     function (event) {
 
-
-        // SPACE / ARROW UP
-
         if (
-            event.code === "Space"
-            ||
+            event.code === "Space" ||
             event.code === "ArrowUp"
         ) {
 
             event.preventDefault();
 
 
-            // kalau belum mulai
-            // langsung mulai
-
             if (!gameRunning) {
 
-                startGame();
+                if (
+                    !gameOver &&
+                    !startScreen.classList.contains("hidden")
+                ) {
+
+                    startGame();
+
+                }
 
             }
 
@@ -464,19 +469,19 @@ document.addEventListener(
         }
 
 
-        // =================================
-        // DARK MODE
-        // =================================
+        /* =========================
+           RESTART
+        ========================= */
 
         if (
-            event.key.toLowerCase()
-            ===
-            "d"
+            event.key.toLowerCase() === "r"
         ) {
 
-            document.body.classList.toggle(
-                "dark"
-            );
+            if (gameOver) {
+
+                startGame();
+
+            }
 
         }
 
@@ -484,54 +489,18 @@ document.addEventListener(
 );
 
 
-// START BUTTON
-
-startButton.addEventListener(
-    "click",
-    function () {
-
-        startGame();
-
-    }
-);
-
-
-// RESTART BUTTON
-
-restartButton.addEventListener(
-    "click",
-    function () {
-
-        startGame();
-
-    }
-);
-
-
-// CLICK GAME = JUMP
+/* ========================================
+   CLICK GAME = JUMP
+======================================== */
 
 game.addEventListener(
     "click",
     function (event) {
 
-
-        // jangan trigger ketika
-        // klik tombol
-
         if (
-            event.target ===
-            startButton
-            ||
-            event.target ===
-            restartButton
+            gameRunning &&
+            event.target === game
         ) {
-
-            return;
-
-        }
-
-
-        if (gameRunning) {
 
             jump();
 
@@ -539,3 +508,10 @@ game.addEventListener(
 
     }
 );
+
+
+/* ========================================
+   INITIAL THEME
+======================================== */
+
+updateGameTheme();
