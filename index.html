@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Runner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="game-container">
+
+        <div class="top-bar">
+            <div class="title">DINO RUNNER</div>
+
+            <div class="score-container">
+                <span>SCORE</span>
+                <strong id="score">00000</strong>
+
+                <span>BEST</span>
+                <strong id="best-score">00000</strong>
+            </div>
+        </div>
+
+        <div id="game">
+
+            <div id="start-screen">
+                <div class="start-title">DINO RUNNER</div>
+                <div class="start-subtitle">
+                    Tekan <b>SPACE</b> untuk mulai
+                </div>
+
+                <button id="start-button">
+                    MULAI GAME
+                </button>
+            </div>
+
+            <div id="game-over-screen" class="hidden">
+                <div class="game-over-title">
+                    GAME OVER
+                </div>
+
+                <div class="final-score">
+                    SCORE:
+                    <strong id="final-score">0</strong>
+                </div>
+
+                <button id="restart-button">
+                    MAIN LAGI
+                </button>
+            </div>
+
+            <div id="dino">
+                <div class="dino-head"></div>
+                <div class="dino-body"></div>
+                <div class="dino-leg leg-left"></div>
+                <div class="dino-leg leg-right"></div>
+            </div>
+
+            <div id="cactus">
+                <div class="cactus-main"></div>
+                <div class="cactus-left"></div>
+                <div class="cactus-right"></div>
+            </div>
+
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+
+            <div id="ground">
+                <div class="ground-line"></div>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <span>SPACE / ↑</span> LOMPAT
+            <span>D</span> DARK MODE
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
